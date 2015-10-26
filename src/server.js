@@ -14,7 +14,7 @@ app.use('/assets', express.static( config.ROOT_FOLDER + '/public' ));
 app.use((req, res) => {
   routing(req, res)
     .then((result) => {
-      res.status(200).send(renderToString(<Html component={result.component} initialState={result.initialState} />));
+      res.status(200).send('<!DOCTYPE html>\n' + renderToString(<Html component={result.component} initialState={result.initialState} />));
     });
 });
 

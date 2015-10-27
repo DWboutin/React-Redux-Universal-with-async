@@ -12,6 +12,7 @@ var config = require('./config');
 
 gulp.task('browser-sync', ['nodemon'], function() {
   browserSync({
+    files: ['public/**/*.*'],
     proxy: "localhost:" + config.APP_PORT,  // local node app address
     port: 5000,  // use *different* port than above
     notify: true,
@@ -38,7 +39,7 @@ gulp.task('nodemon', function(cb) {
     .on('restart', function () {
       setTimeout(function () {
         browserSync.reload({ stream: false });
-      }, 1000);
+      }, 200);
     });
 });
 
@@ -48,9 +49,7 @@ gulp.task('browserify', function() {
   return browserify('./src/client/app.js')
     .transform(babelify.configure({optional: ["runtime"]}))
     .bundle()
-    //Pass desired output filename to vinyl-source-stream
     .pipe(source('bundle.js'))
-    // Start piping stream to tasks!
     .pipe(buffer())
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(uglify())
